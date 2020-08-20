@@ -26,7 +26,7 @@ class EditorWgt : public QWidget
     QDir currentDir;
     QImage currentImg;
 	QLineEdit *leExifDate;
-    QCheckBox *chkAutoRename;
+    QCheckBox *chkAutoRenameAllFiles;
 	QGroupBox *grbxExifDate;
 	QGroupBox *grbxPaint;
     QStringList lstFileNames;

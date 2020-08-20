@@ -75,10 +75,10 @@ EditorWgt::EditorWgt(QWidget *parent) : QWidget(parent)
 	grbxExifDate->setCheckable(true);
 	//grbxExifDate->setFlat(true);
     QHBoxLayout *vExifDateLay = new QHBoxLayout;
-    chkAutoRename = new QCheckBox("Autorename", this);
-    connect(chkAutoRename, &QCheckBox::stateChanged, this, &EditorWgt::onAutoRenameChanged);
+    chkAutoRenameAllFiles = new QCheckBox("Autorename all files", this);
+    connect(chkAutoRenameAllFiles, &QCheckBox::stateChanged, this, &EditorWgt::onAutoRenameChanged);
 	leExifDate = new QLineEdit(this);
-    vExifDateLay->addWidget(chkAutoRename);
+    vExifDateLay->addWidget(chkAutoRenameAllFiles);
 	vExifDateLay->addWidget(leExifDate);
 	grbxExifDate->setLayout(vExifDateLay);
 
@@ -136,7 +136,7 @@ void EditorWgt::sltOKClicked()
     QFileInfo fi(lblOriginalName->text());
 	if(grbxExifDate->isChecked())
 	{
-        if(chkAutoRename->isChecked())
+        if(chkAutoRenameAllFiles->isChecked())
         {
             ///TODO
             /// Автоматическое переименование
