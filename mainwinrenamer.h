@@ -23,7 +23,7 @@ class MainWinRenamer : public QWidget
     QDir currentDir;
     QProgressBar *prBar;
     DirectoryReader dir_reader_;
-    QThread *thread;
+    QThread *thread_;
     QStringList old_file_names;
     bool is_auto_rename;
 

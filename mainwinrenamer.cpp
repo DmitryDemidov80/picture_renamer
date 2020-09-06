@@ -10,7 +10,7 @@
 #include <QDebug>
 
 MainWinRenamer::MainWinRenamer(QWidget *parent)
-    : QWidget(parent),currentRow(-1), prBar(nullptr), thread(nullptr), is_auto_rename(false)
+    : QWidget(parent),currentRow(-1), prBar(nullptr), thread_(nullptr), is_auto_rename(false)
 {
     setWindowTitle("Picture Renamer. Ver: "+QString(APP_VERSION));
     tblWgt = new QTableWidget(0, 4, this);
@@ -26,9 +26,9 @@ MainWinRenamer::MainWinRenamer(QWidget *parent)
 
     createProgressBar();
 
-    thread = new QThread;
-    connect(thread, &QThread::started, &dir_reader_, &DirectoryReader::analyzeDirectory);
-    connect(&dir_reader_, &DirectoryReader::analyze_finished, thread, &QThread::terminate);
+    thread_ = new QThread;
+    connect(thread_, &QThread::started, &dir_reader_, &DirectoryReader::analyzeDirectory);
+    connect(&dir_reader_, &DirectoryReader::analyze_finished, thread_, &QThread::quit);
 
     connect(&dir_reader_, &DirectoryReader::rowDataReady, this, &MainWinRenamer::onRowReady);
     connect(&dir_reader_, &DirectoryReader::analyze_finished, this, &MainWinRenamer::onAnalyzeDirectoryFinished);
@@ -44,11 +44,11 @@ MainWinRenamer::~MainWinRenamer()
 {
     if(prBar!=nullptr)
         delete prBar;
-    if(thread!=nullptr)
+    if(thread_!=nullptr)
     {
-        thread->terminate();
-        thread->wait();
-        delete thread;
+        thread_->quit();
+        thread_->wait();
+        delete thread_;
     }
 }
 
@@ -68,8 +68,8 @@ void MainWinRenamer::sltCurrentDirectoryChoosed(QString cdir)
     prBar->move(top_left.x()+width()/2, top_left.y()+height()/2);
     prBar->show();
 
-    dir_reader_.moveToThread(thread);
-    thread->start();
+    dir_reader_.moveToThread(thread_);
+    thread_->start();
 }
 
 void MainWinRenamer::sltTblCellClicked(int row, int col)
