@@ -4,6 +4,10 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 #include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QComboBox>
 #include <QCheckBox>
 #include <QFileDialog>
 #include <QImage>
@@ -73,7 +77,6 @@ EditorWgt::EditorWgt(QWidget *parent) : QWidget(parent)
 	grbxExifDate = new QGroupBox("Exif Date",this);
 	connect(grbxExifDate, &QGroupBox::clicked, this, &EditorWgt::onGroupBoxChecked);
 	grbxExifDate->setCheckable(true);
-	//grbxExifDate->setFlat(true);
     QHBoxLayout *vExifDateLay = new QHBoxLayout;
     chkAutoRenameAllFiles = new QCheckBox("Autorename all files", this);
     connect(chkAutoRenameAllFiles, &QCheckBox::stateChanged, this, &EditorWgt::onAutoRenameChanged);
@@ -86,7 +89,6 @@ EditorWgt::EditorWgt(QWidget *parent) : QWidget(parent)
 	connect(grbxPaint, &QGroupBox::clicked, this, &EditorWgt::onGroupBoxChecked);
 	grbxPaint->setCheckable(true);
 	grbxPaint->setChecked(false);
-	//grbxPaint->setFlat(true);
 
 	QVBoxLayout *vPaintLay = new QVBoxLayout;
 	vPaintLay->addWidget(cmbProducer);
@@ -158,10 +160,10 @@ void EditorWgt::sltOKClicked()
 void EditorWgt::sltOpenFolderClicked()
 {
     QFileDialog *fdlg = new QFileDialog(this,"Выбор директории с картинками");
-    fdlg->setFileMode(QFileDialog::DirectoryOnly);
+    fdlg->setFileMode(QFileDialog::Directory);
+    //fdlg->setOption(QFileDialog::ShowDirsOnly);
     if (fdlg->exec()==QDialog::Accepted)
     {
-        //currentImg = QImage();
         lblPix->clear();
         lblPix->setText("No Pix");
         QString strPath(fdlg->directory().absolutePath());

@@ -9,10 +9,12 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-VERSION = 1.3.3
+VERSION = 1.3.4
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
-TARGET = PictureRenamer
+DESTDIR += ../picture_renamer_bin
+
+TARGET = picture_renamer
 TEMPLATE = app
 
 CONFIG += c++17
@@ -20,7 +22,7 @@ CONFIG += c++17
 SOURCES += main.cpp\
     3rdparty/exif/exif.cpp \
     directoryreader.cpp \
-        mainwinrenamer.cpp \
+    mainwinrenamer.cpp \
     editorwgt.cpp
 
 HEADERS  += mainwinrenamer.h \

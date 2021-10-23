@@ -2,16 +2,17 @@
 #define EDITORWGT_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QLineEdit>
-#include <QPushButton>
 #include <QDir>
-#include <QComboBox>
 #include <QStringList>
 
 class QImage;
 class QGroupBox;
 class QCheckBox;
+class QLabel;
+class QLineEdit;
+class QPushButton;
+class QComboBox;
+
 class EditorWgt : public QWidget
 {
     Q_OBJECT
