@@ -140,8 +140,6 @@ void EditorWgt::sltOKClicked()
 	{
         if(chkAutoRenameAllFiles->isChecked())
         {
-            ///TODO
-            /// Автоматическое переименование
             autorenameAllFilesFromtable();
         }
         else
@@ -161,7 +159,6 @@ void EditorWgt::sltOpenFolderClicked()
 {
     QFileDialog *fdlg = new QFileDialog(this,"Выбор директории с картинками");
     fdlg->setFileMode(QFileDialog::Directory);
-    //fdlg->setOption(QFileDialog::ShowDirsOnly);
     if (fdlg->exec()==QDialog::Accepted)
     {
         lblPix->clear();
