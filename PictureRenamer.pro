@@ -9,15 +9,18 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-VERSION = 1.3.5
+VERSION = 1.3.6
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 DESTDIR += ../picture_renamer_bin
 
+QMAKE_TARGET_DESCRIPTION = "Picture renamer"
+RC_ICONS = icons/main_icon.ico
+
 TARGET = picture_renamer
 TEMPLATE = app
 
-CONFIG += c++17
+CONFIG += c++1z
 
 SOURCES += main.cpp\
     3rdparty/exif/exif.cpp \
