@@ -139,7 +139,6 @@ void MainWinRenamer::onRowReady(int row_num, const QString &fname, const QString
 void MainWinRenamer::onAnalyzeDirectoryFinished()
 {
     tblWgt->horizontalHeader()->resizeSections(QHeaderView::Stretch);
-    tblWgt->verticalHeader()->resizeSections(QHeaderView::Stretch);
     editor->setFileNameList(old_file_names);
     prBar->close();
 }

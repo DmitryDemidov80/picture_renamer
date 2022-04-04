@@ -63,10 +63,11 @@ EditorWgt::EditorWgt(QWidget *parent) : QWidget(parent)
 
     leYear = new QLineEdit("19",this);
     bOK = new QPushButton("OK",this);
-    connect(bOK,SIGNAL(clicked(bool)),SLOT(sltOKClicked()));
+    connect(bOK, &QPushButton::clicked, this, &EditorWgt::sltOKClicked);
+    bOK->setEnabled(false);
 
     bOpenFolder = new QPushButton("Open Folder",this);
-    connect(bOpenFolder,SIGNAL(clicked(bool)),SLOT(sltOpenFolderClicked()));
+    connect(bOpenFolder,&QPushButton::clicked, this, &EditorWgt::sltOpenFolderClicked);
 
     QFormLayout *frmLay = new QFormLayout;
     frmLay->addRow("File: ",lblOriginalName);
@@ -144,8 +145,11 @@ void EditorWgt::sltOKClicked()
         }
         else
         {
-            newFName = leExifDate->text()+"."+fi.suffix().toLower();
-            emit sgnFileNameChanged(newFName);
+            if(!leExifDate->text().isEmpty())
+            {
+                newFName = leExifDate->text()+"."+fi.suffix().toLower();
+                emit sgnFileNameChanged(newFName);
+            }
         }
 	}
 	else if(grbxPaint->isChecked())
@@ -165,6 +169,7 @@ void EditorWgt::sltOpenFolderClicked()
         lblPix->setText("No Pix");
         QString strPath(fdlg->directory().absolutePath());
         currentDir.setCurrent(strPath);
+        bOK->setEnabled(true);
         // Передать текущую директорию наверх
         emit sgnCurrentDirectoryChoosed(currentDir.currentPath());
     }
