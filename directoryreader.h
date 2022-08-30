@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QFile>
 #include <QDir>
+#include <tuple>
 
 class DirectoryReader : public QObject
 {
@@ -11,6 +12,8 @@ class DirectoryReader : public QObject
 public:
     explicit DirectoryReader(QObject *parent = nullptr);
     void setDirectory(const QString &dir) noexcept;
+
+    std::tuple<QString, QString, QString, QString, QString> analyze_file(const QString &fname);
 
 signals:
 
@@ -24,7 +27,6 @@ private:
     QString EXIF_ErrorCodeToString(int code) const;
 
 private:
-    QString cdir_;
     QFile currentFile;
     QDir currentDir;
 };

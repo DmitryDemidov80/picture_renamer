@@ -9,13 +9,42 @@ DirectoryReader::DirectoryReader(QObject *parent) : QObject(parent)
 
 void DirectoryReader::setDirectory(const QString &dir) noexcept
 {
-    cdir_ = dir;
+    currentDir.setPath(dir);
+}
+
+std::tuple<QString, QString, QString, QString, QString> DirectoryReader::analyze_file(const QString &fname)
+{
+    easyexif::EXIFInfo info;
+    QFile file(fname);
+    file.open(QIODevice::ReadOnly);
+    QByteArray data = file.readAll();
+    if (int code = info.parseFrom((unsigned char *)data.data(), data.size()))
+    {
+        qDebug() << "Error parsing EXIF: code " << EXIF_ErrorCodeToString(code);
+    }
+    // Дата exif
+    QString date(info.DateTimeOriginal.c_str());
+    file.close();
+
+    // Имя
+    QString name(fname);
+
+    //Размер
+    QFileInfo fi(fname);
+    double size=fi.size()/1024.0/1024.0;
+    QString str_size=QString().setNum(size)+"МБ";
+
+
+    // камера
+    auto camera_brand = info.Make;
+    auto camera_model = info.Model;
+    return std::tuple(name, str_size, date, QString(camera_brand.c_str()), QString(camera_model.c_str()));
 }
 
 void DirectoryReader::analyzeDirectory()
 {
     QStringList flst;
-    currentDir.setPath(cdir_);
+
 
     QStringList lst;
     lst << "*.jpg" << "*.jpeg" << "*.bmp" << "*.png" << "*.tiff";
