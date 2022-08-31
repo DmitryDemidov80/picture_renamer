@@ -12,6 +12,11 @@ void DirectoryReader::setDirectory(const QString &dir) noexcept
     currentDir.setPath(dir);
 }
 
+QDir DirectoryReader::current_directory() const noexcept
+{
+    return currentDir;
+}
+
 std::tuple<QString, QString, QString, QString, QString> DirectoryReader::analyze_file(const QString &fname)
 {
     easyexif::EXIFInfo info;
@@ -43,12 +48,9 @@ std::tuple<QString, QString, QString, QString, QString> DirectoryReader::analyze
 
 void DirectoryReader::analyzeDirectory()
 {
-    QStringList flst;
-
-
     QStringList lst;
     lst << "*.jpg" << "*.jpeg" << "*.bmp" << "*.png" << "*.tiff";
-    flst = currentDir.entryList(lst, QDir::Files, QDir::Name);
+    QStringList flst(currentDir.entryList(lst, QDir::Files, QDir::Name));
     for (auto i=0; i<flst.size(); ++i)
     {
         auto percents = i*100/flst.size()+1;

@@ -12,6 +12,7 @@ class DirectoryReader : public QObject
 public:
     explicit DirectoryReader(QObject *parent = nullptr);
     void setDirectory(const QString &dir) noexcept;
+    QDir current_directory() const noexcept;
 
     std::tuple<QString, QString, QString, QString, QString> analyze_file(const QString &fname);
 
