@@ -13,6 +13,7 @@
 #include <QImage>
 #include <QMessageBox>
 #include <QStringList>
+#include "pix_viewer.h"
 #include "exif.h"
 
 EditorWgt::EditorWgt(QWidget *parent) : QWidget(parent)
@@ -72,8 +73,12 @@ EditorWgt::EditorWgt(QWidget *parent) : QWidget(parent)
     QFormLayout *frmLay = new QFormLayout;
     frmLay->addRow("File: ",lblOriginalName);
 
-    lblPix = new QLabel("No Pix",this);
+//    lblPix = new QLabel("No Pix",this);
+//    lblPix->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+
+    lblPix = new PixViewer("No Pix",this);
     lblPix->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+    connect(lblPix, &PixViewer::file_dropped, this, &EditorWgt::file_dropped_from_folder);
 
 	grbxExifDate = new QGroupBox("Exif Date",this);
 	connect(grbxExifDate, &QGroupBox::clicked, this, &EditorWgt::onGroupBoxChecked);
@@ -129,7 +134,7 @@ void EditorWgt::sltFileClicked(QString fname)
     }
     else
     {
-        QMessageBox::warning(nullptr,"Ошибка загрузки изображения","Ошибка загрузки изображения.");
+        QMessageBox::warning(nullptr, tr("Ошибка загрузки изображения"),tr("Ошибка загрузки изображения. Проверьте путь к файлу."));
     }
 }
 
@@ -209,6 +214,16 @@ void EditorWgt::onAutoRenameChanged(int state)
             break;
         }
     }
+}
+
+void EditorWgt::file_dropped_from_folder(const QString &fname) noexcept
+{
+    auto idx = fname.lastIndexOf('/');
+    auto n = fname.mid(idx+1);
+    auto path = fname.mid(0, idx);
+    currentDir.setCurrent(path);
+    bOK->setEnabled(true);
+    emit file_dropped(fname);
 }
 
 QString EditorWgt::convertDateForFileName(const QString &strDate)

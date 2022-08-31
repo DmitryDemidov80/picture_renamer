@@ -12,13 +12,15 @@ class QLabel;
 class QLineEdit;
 class QPushButton;
 class QComboBox;
+class PixViewer;
 
 class EditorWgt : public QWidget
 {
     Q_OBJECT
 
     QLabel *lblOriginalName;
-    QLabel*lblPix;
+    //QLabel*lblPix;
+    PixViewer *lblPix;
     QLineEdit *leYear;
     QPushButton *bOK;
     QPushButton *bOpenFolder;
@@ -38,8 +40,9 @@ public:
 
 signals:
     void sgnFileNameChanged(QString newName);
-    void sgnCurrentDirectoryChoosed(QString cdir);
+    void sgnCurrentDirectoryChoosed(const QString &cdir);
     void sgnAutoRenameFileName(const QString &oldName, const QString &newName);
+    void file_dropped(const QString &fname);
 
 public slots:
     void sltFileClicked(QString fname);
@@ -49,6 +52,7 @@ public slots:
 private slots:
 	void onGroupBoxChecked(bool checked);
     void onAutoRenameChanged(int state);
+    void file_dropped_from_folder(const QString &fname) noexcept;
 
 private:
 	QString convertDateForFileName(const QString &strDate);

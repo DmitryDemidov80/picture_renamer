@@ -6,7 +6,6 @@
 #include <QMessageBox>
 #include <QProgressBar>
 #include <QThread>
-#include "exif.h"
 #include <QDebug>
 
 MainWinRenamer::MainWinRenamer(QWidget *parent)
@@ -23,6 +22,7 @@ MainWinRenamer::MainWinRenamer(QWidget *parent)
     connect(editor, &EditorWgt::sgnCurrentDirectoryChoosed, this, &MainWinRenamer::sltCurrentDirectoryChoosed);
     connect(editor, &EditorWgt::sgnFileNameChanged, this, &MainWinRenamer::sltFileNameChanged);
     connect(editor, &EditorWgt::sgnAutoRenameFileName, this, &MainWinRenamer::sltAutoRename);
+    connect(editor, &EditorWgt::file_dropped, this, &MainWinRenamer::file_dropped_from_folder);
 
     createProgressBar();
 
@@ -58,7 +58,7 @@ void MainWinRenamer::clearTable()
     tblWgt->setRowCount(0);
 }
 
-void MainWinRenamer::sltCurrentDirectoryChoosed(QString cdir)
+void MainWinRenamer::sltCurrentDirectoryChoosed(const QString &cdir)
 {
     dir_reader_.setDirectory(cdir);
     clearTable();
@@ -77,7 +77,8 @@ void MainWinRenamer::sltTblCellClicked(int row, int col)
     Q_UNUSED (col)
     currentRow=row;
     // Передать для отображения в картинку и в лейбл
-    currentFile.setFileName(currentDir.absolutePath()+"/"+tblWgt->item(currentRow,0)->text());
+    auto abs_path = dir_reader_.current_directory().absolutePath();
+    currentFile.setFileName(abs_path+"/"+tblWgt->item(currentRow,0)->text());
     if(currentFile.exists())
     {
         editor->sltFileClicked(tblWgt->item(currentRow,0)->text());
@@ -141,6 +142,21 @@ void MainWinRenamer::onAnalyzeDirectoryFinished()
     tblWgt->horizontalHeader()->resizeSections(QHeaderView::Stretch);
     editor->setFileNameList(old_file_names);
     prBar->close();
+}
+
+void MainWinRenamer::file_dropped_from_folder(const QString &fname)
+{
+    clearTable();
+    const auto &[str_size, date, camera_brand, camera_model] = dir_reader_.analyze_file(fname);
+    auto c = tblWgt->rowCount();
+    auto idx = fname.lastIndexOf('/');
+    auto n = fname.mid(idx+1);
+    auto path = fname.mid(0, idx);
+    dir_reader_.setDirectory(path);
+    onRowReady(c, n, str_size, date, camera_brand, camera_model, 100);
+    editor->setFileNameList(old_file_names);
+    tblWgt->setCurrentCell(0, 0);
+    sltTblCellClicked(0, 0);
 }
 
 void MainWinRenamer::resizeEvent(QResizeEvent *event)

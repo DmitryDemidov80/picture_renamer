@@ -37,13 +37,14 @@ public:
     ~MainWinRenamer();
 
 private slots:
-    void sltCurrentDirectoryChoosed(QString cdir);
+    void sltCurrentDirectoryChoosed(const QString &cdir);
     void sltTblCellClicked(int row, int col);
     void sltFileNameChanged(const QString &newName);
     void sltAutoRename(const QString &oldName, const QString &newName);
     //void fillTable();
     void onRowReady(int row_num, const QString &fname, const QString &size, const QString &date, const QString &camera_brand, const QString &camera_model, int percent);
     void onAnalyzeDirectoryFinished();
+    void file_dropped_from_folder(const QString &fname);
 
 signals:
     void sgnPicClicked(QString fname);

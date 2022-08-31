@@ -17,7 +17,7 @@ QDir DirectoryReader::current_directory() const noexcept
     return currentDir;
 }
 
-std::tuple<QString, QString, QString, QString, QString> DirectoryReader::analyze_file(const QString &fname)
+std::tuple<QString, QString, QString, QString> DirectoryReader::analyze_file(const QString &fname)
 {
     easyexif::EXIFInfo info;
     QFile file(fname);
@@ -32,7 +32,7 @@ std::tuple<QString, QString, QString, QString, QString> DirectoryReader::analyze
     file.close();
 
     // Имя
-    QString name(fname);
+    //QString name(fname);
 
     //Размер
     QFileInfo fi(fname);
@@ -43,7 +43,7 @@ std::tuple<QString, QString, QString, QString, QString> DirectoryReader::analyze
     // камера
     auto camera_brand = info.Make;
     auto camera_model = info.Model;
-    return std::tuple(name, str_size, date, QString(camera_brand.c_str()), QString(camera_model.c_str()));
+    return std::tuple(str_size, date, QString(camera_brand.c_str()), QString(camera_model.c_str()));
 }
 
 void DirectoryReader::analyzeDirectory()

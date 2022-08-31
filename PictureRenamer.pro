@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-VERSION = 1.3.7
+VERSION = 1.4.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 DESTDIR += ../picture_renamer_bin
@@ -25,12 +25,14 @@ SOURCES += main.cpp\
     3rdparty/exif/exif.cpp \
     directoryreader.cpp \
     mainwinrenamer.cpp \
-    editorwgt.cpp
+    editorwgt.cpp \
+    pix_viewer.cpp
 
 HEADERS  += mainwinrenamer.h \
     3rdparty/exif/exif.h \
     directoryreader.h \
-    editorwgt.h
+    editorwgt.h \
+    pix_viewer.h
 
 INCLUDEPATH += 3rdparty/exif \
 
@@ -43,7 +45,7 @@ DEFINES += BUILD_DATE=\\\"$$BLD_DATE\\\"
 DEFINES += BUILD_TIME=\\\"$$BLD_TIME\\\"
 } else {
 #BUILDDATE = $$system( date "+%d.%m.%Y_%H:%M:%S" ) и дата, и время (в линуксе)
-BLD_DATE=$$system(date)
+BLD_DATE = $$system(date)
 BLD_DATE = $$system( date "+%d.%m.%Y" )
 BLD_TIME = $$system( date "+%H:%M" )
 #BLD_TIME = $$system( date "+%H:%M:%S" )
