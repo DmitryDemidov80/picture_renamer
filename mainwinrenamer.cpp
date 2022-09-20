@@ -131,7 +131,9 @@ void MainWinRenamer::onRowReady(int row_num, const QString &fname, const QString
     tblWgt->setItem(row_num, 2, itmdate);
 
     //камера
-    auto camera=camera_brand+", "+camera_model;
+    QString camera;
+    if(!camera_brand.isEmpty() && !camera_model.isEmpty())
+        camera=camera_brand+", "+camera_model;
     QTableWidgetItem *itmdCamera = new QTableWidgetItem(camera);
     itmdate->setFlags(itmdCamera->flags()^Qt::ItemIsEditable);
     tblWgt->setItem(row_num, 3, itmdCamera);
