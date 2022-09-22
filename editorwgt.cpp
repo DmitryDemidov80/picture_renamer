@@ -129,7 +129,7 @@ void EditorWgt::sltFileClicked(QString fname)
         QImage img1=currentImg.scaled(lblPix->width(),lblPix->height(),Qt::KeepAspectRatio);
         lblPix->clear();
         lblPix->setPixmap(QPixmap().fromImage(img1));
-        QString str_date(getDateFromExif(fname));
+        QString str_date(getDateFromExif(path));
         leExifDate->setText(str_date);
     }
     else
@@ -221,7 +221,7 @@ void EditorWgt::file_dropped_from_folder(const QString &fname) noexcept
     auto idx = fname.lastIndexOf('/');
     auto n = fname.mid(idx+1);
     auto path = fname.mid(0, idx);
-    currentDir.setCurrent(path);
+    currentDir.setPath(path);
     bOK->setEnabled(true);
     emit file_dropped(fname);
 }

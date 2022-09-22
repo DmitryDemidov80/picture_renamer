@@ -12,6 +12,10 @@
 class EditorWgt;
 class QProgressBar;
 class QThread;
+
+/**
+ * @brief The MainWinRenamer class - основное окно программы.
+ */
 class MainWinRenamer : public QWidget
 {
     Q_OBJECT
@@ -20,7 +24,6 @@ class MainWinRenamer : public QWidget
     EditorWgt *editor;
     int currentRow;
     QFile currentFile;
-    QDir currentDir;
     QProgressBar *prBar;
     DirectoryReader dir_reader_;
     QThread *thread_;

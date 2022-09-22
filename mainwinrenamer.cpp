@@ -33,7 +33,6 @@ MainWinRenamer::MainWinRenamer(QWidget *parent)
     connect(&dir_reader_, &DirectoryReader::rowDataReady, this, &MainWinRenamer::onRowReady);
     connect(&dir_reader_, &DirectoryReader::analyze_finished, this, &MainWinRenamer::onAnalyzeDirectoryFinished);
 
-
     QHBoxLayout *hMainLay = new QHBoxLayout;
     hMainLay->addWidget(tblWgt);
     hMainLay->addWidget(editor);
@@ -87,7 +86,8 @@ void MainWinRenamer::sltTblCellClicked(int row, int col)
 
 void MainWinRenamer::sltFileNameChanged(const QString &newName)
 {
-    if(currentFile.rename(newName))
+    auto cd = dir_reader_.current_directory().path();
+    if(currentFile.rename(cd+QDir::separator()+newName))
     {
         tblWgt->item(currentRow,0)->setText(newName);
     }
